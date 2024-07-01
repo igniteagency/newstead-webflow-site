@@ -1,9 +1,7 @@
-import { navHideShow } from 'src/components/nav';
 import { SCRIPTS_LOADED_EVENT } from 'src/constants';
 
 window.addEventListener(SCRIPTS_LOADED_EVENT, () => {
   quicklinkCards();
-  navHideShow();
 });
 
 function quicklinkCards() {

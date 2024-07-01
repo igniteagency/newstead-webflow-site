@@ -1,0 +1,1 @@
+"use strict";(()=>{function t(){window.gsap.from(".cta_graphic-wrapper, .cta_shape",{rotationZ:-25,duration:1.5,ease:"power4.inOut",scrollTrigger:{trigger:".section_cta",start:"top 80%",end:"top top",toggleActions:"play none none none"}})}})();

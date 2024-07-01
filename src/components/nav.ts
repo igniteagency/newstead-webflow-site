@@ -1,4 +1,4 @@
-const NAVBAR = document.querySelector('.navbar_component') as HTMLElement;
+const NAVBAR = document.querySelector('.navbar_container') as HTMLElement;
 const NAVBAR_CONTAINER = document.querySelector('.navbar_container') as HTMLElement;
 const HERO_SECTION = document.getElementById('hero-section');
 const ANIMATION_DURATION: number = 0.5; // Duration in seconds

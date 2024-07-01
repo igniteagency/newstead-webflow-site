@@ -19,7 +19,7 @@ export function navHideShow() {
       if (!isScrollingDown) {
         if (scrollTimeout) clearTimeout(scrollTimeout);
         scrollTimeout = window.setTimeout(() => {
-          gsap.to(NAVBAR, {
+          window.gsap.to(NAVBAR, {
             yPercent: -180,
             duration: ANIMATION_DURATION,
             ease: ANIMATION_EASE,
@@ -31,7 +31,7 @@ export function navHideShow() {
       // Scrolling up
       if (isScrollingDown) {
         if (scrollTimeout) clearTimeout(scrollTimeout);
-        gsap.to(NAVBAR, {
+        window.gsap.to(NAVBAR, {
           yPercent: 0,
           duration: ANIMATION_DURATION,
           ease: ANIMATION_EASE,

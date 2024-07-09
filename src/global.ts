@@ -19,3 +19,9 @@ window.addEventListener(SCRIPTS_LOADED_EVENT, () => {
   ctaAnimation();
   footerCtaAnimation();
 });
+
+const CURRENT_YEAR = document.getElementById('current-year');
+
+if (CURRENT_YEAR) {
+  CURRENT_YEAR.textContent = new Date().getFullYear().toString();
+}

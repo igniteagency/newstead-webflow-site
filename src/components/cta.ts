@@ -1,13 +1,30 @@
 export function ctaAnimation() {
-  window.gsap.from('.cta_graphic-wrapper, .cta_shape', {
-    rotationZ: -25, // Initial value of the rotationZ property
-    duration: 1.5,
-    ease: 'power4.inOut',
-    scrollTrigger: {
-      trigger: '.section_cta',
-      start: 'top 80%', // Start animation when .section_cta is 20% above the bottom of the viewport
-      end: 'top top',
-      toggleActions: 'play none none none',
+  let mm = gsap.matchMedia();
+  const breakPoint = 991; // Define the breakpoint for mobile/desktop
+
+  mm.add(
+    {
+      isDesktop: `(min-width: ${breakPoint}px)`,
+      isMobile: `(max-width: ${breakPoint - 1}px)`,
     },
-  });
+    (context) => {
+      let isDesktop = context.conditions;
+
+      gsap.from('.cta_graphic-wrapper, .cta_shape', {
+        rotationZ: isDesktop ? -25 : 60, // Use -25 for desktop, 60 for mobile
+        duration: 1.5,
+        ease: 'power4.inOut',
+        scrollTrigger: {
+          trigger: '.section_cta',
+          start: 'top 80%',
+          end: 'top top',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      return () => {
+        // Cleanup function if needed
+      };
+    }
+  );
 }

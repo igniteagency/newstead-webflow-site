@@ -24,6 +24,4 @@ function quicklinkCards() {
       },
     });
   });
-  // later, if we need to revert all the animations/ScrollTriggers...
-  mm.revert();
 }

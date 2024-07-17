@@ -1,60 +1,57 @@
-const NAVBAR = document.querySelector('.navbar_container') as HTMLElement;
-const NAVBAR_CONTAINER = document.querySelector('.navbar_container') as HTMLElement;
-const HERO_SECTION = document.getElementById('hero-section');
-const ANIMATION_DURATION: number = 0.5; // Duration in seconds
-const ANIMATION_EASE: string = 'power4.inOut'; // Easing function
+const containerEl = document.querySelector('.navbar_container')!;
+const heroSectionEl = document.getElementById('hero-section');
 
-const SCROLL_DEBOUNCE_MS = 50;
+const NAV_TRANSPARENT_CLASSNAME = 'is-transparent';
+
+let navYPercentMove: gsap.QuickToFunc;
 
 export function navHideShow() {
-  let lastScrollTop: number = 0;
-  let scrollTimeout: number | undefined;
-
-  const handleScroll = (): void => {
-    const scrollTop: number = window.scrollY || document.documentElement.scrollTop;
-    const scrollDelta: number = scrollTop - lastScrollTop;
-
-    // Animate navbar based on scroll direction
-    if (scrollDelta > 0) {
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = window.setTimeout(() => {
-        window.gsap.to(NAVBAR, {
-          yPercent: -180,
-          duration: ANIMATION_DURATION,
-          ease: ANIMATION_EASE,
-        });
-      }, SCROLL_DEBOUNCE_MS);
-    } else {
-      // Scrolling up
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      window.gsap.to(NAVBAR, {
-        yPercent: 0,
-        duration: ANIMATION_DURATION,
-        ease: ANIMATION_EASE,
-      });
-    }
-
-    // Check if the hero section is out of view and remove the .is-hero class if it exists
-    // NOTE: Poor performance to be calculating element boundary on every scroll event execution since it causes reflow
-    if (HERO_SECTION) {
-      const HERO_SECTIONRect: DOMRect = HERO_SECTION.getBoundingClientRect();
-      if (HERO_SECTIONRect.bottom <= 0) {
-        if (NAVBAR_CONTAINER.classList.contains('is-hero')) {
-          NAVBAR_CONTAINER.classList.remove('is-hero');
-        }
-      } else {
-        if (!NAVBAR_CONTAINER.classList.contains('is-hero')) {
-          NAVBAR_CONTAINER.classList.add('is-hero');
-        }
-      }
-    }
-
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  };
-
-  window.addEventListener('scroll', () => {
-    // Debounce the scroll event handler
-    if (scrollTimeout) clearTimeout(scrollTimeout);
-    scrollTimeout = window.setTimeout(handleScroll, SCROLL_DEBOUNCE_MS);
+  navYPercentMove = window.gsap.quickTo(containerEl, 'yPercent', {
+    duration: 0.5,
+    ease: 'power4.inOut',
   });
+
+  navToggleOnScroll();
+  navHeroIntersectionToggle();
+}
+
+function navToggleOnScroll() {
+  window.ScrollTrigger.create({
+    start: 'top top',
+    end: 'max',
+    onUpdate: (self) => {
+      if (self.direction === -1) {
+        // scrolled up
+        navYPercentMove(0);
+      } else {
+        // scrolled down
+        navYPercentMove(-200);
+      }
+    },
+  });
+}
+
+function navHeroIntersectionToggle() {
+  if (!heroSectionEl) {
+    // console.debug('Hero section element with ID not found');
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          containerEl.classList.add(NAV_TRANSPARENT_CLASSNAME);
+        } else {
+          containerEl.classList.remove(NAV_TRANSPARENT_CLASSNAME);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: '0px',
+      threshold: [0, 1],
+    }
+  );
+  observer.observe(heroSectionEl);
 }

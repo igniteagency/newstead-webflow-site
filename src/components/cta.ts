@@ -1,14 +1,14 @@
 export function ctaAnimation() {
   let mm = window.gsap.matchMedia();
-  const breakPoint = 991; // Define the breakpoint for mobile/desktop
+  const breakPoint = 991; // Define the breakpoint for tablet/desktop
 
   mm.add(
     {
-      isDesktop: `(min-width: ${breakPoint}px)`,
-      isMobile: `(max-width: ${breakPoint - 1}px)`,
+      isDesktop: `(min-width: ${breakPoint + 1}px)`,
+      isTablet: `(max-width: ${breakPoint}px)`,
     },
     (context: gsap.Context) => {
-      let { isDesktop, isMobile } = context.conditions || {};
+      let { isDesktop, isTablet } = context.conditions || {};
 
       if (isDesktop) {
         // Desktop animation
@@ -25,9 +25,7 @@ export function ctaAnimation() {
         });
       }
 
-      if (isMobile) {
-        console.log('isMobile');
-        // Mobile animation
+      if (isTablet) {
         window.gsap.set('.cta_graphic-wrapper', { rotationZ: 0 });
         window.gsap.from('.cta-graphic, .cta_shape', {
           rotationZ: 70,
@@ -42,9 +40,9 @@ export function ctaAnimation() {
         });
       }
 
-      return () => {
-        // Cleanup function if needed
-      };
+      // return () => {
+      //   // Cleanup function if needed
+      // };
     }
   );
 }

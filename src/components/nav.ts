@@ -25,7 +25,7 @@ function navToggleOnScroll() {
         navYPercentMove(0);
       } else {
         // scrolled down
-        navYPercentMove(-180);
+        navYPercentMove(-200);
       }
     },
   });

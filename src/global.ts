@@ -7,6 +7,7 @@ import { ctaAnimation } from './components/cta';
 import { footerCtaAnimation } from './components/footer-cta';
 import { navHideShow } from './components/nav';
 import { SCRIPTS_LOADED_EVENT } from './constants';
+import { setCurrentYear } from './utils/current-year';
 
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
@@ -18,10 +19,5 @@ window.addEventListener(SCRIPTS_LOADED_EVENT, () => {
   autoTabs();
   ctaAnimation();
   footerCtaAnimation();
+  setCurrentYear();
 });
-
-const CURRENT_YEAR = document.getElementById('current-year');
-
-if (CURRENT_YEAR) {
-  CURRENT_YEAR.textContent = new Date().getFullYear().toString();
-}
